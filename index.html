@@ -1,24 +1,77 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>My Dummy Site</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Interactive Dummy Site for GA4 Tracking</title>
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JTB17MG6MZ"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JTB17MG6MZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JTB17MG6MZ');
+</script>
 
-    gtag('config', 'G-JTB17MG6MZ');
-  </script>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto; }
+  button { margin: 10px 0; padding: 10px 20px; font-size: 16px; }
+  input, textarea { display: block; width: 100%; margin: 8px 0; padding: 8px; }
+</style>
 </head>
 <body>
-  <h1>Hello, world!</h1>
-  <p>This is a dummy site for GA4 testing.</p>
 
-  <!-- New Button to Trigger Redeploy -->
-  <button onclick="alert('Button clicked!')">Click Me</button>
+<h1>Welcome to the Interactive Dummy Site</h1>
+<p>Try clicking the buttons and submitting the form to generate events tracked in GA4.</p>
+
+<!-- Buttons -->
+<button id="btnBuy">Buy Now</button>
+<button id="btnSubscribe">Subscribe</button>
+
+<!-- Simple form -->
+<h2>Contact Us</h2>
+<form id="contactForm">
+  <input type="text" id="name" name="name" placeholder="Your Name" required />
+  <input type="email" id="email" name="email" placeholder="Your Email" required />
+  <textarea id="message" name="message" rows="4" placeholder="Your Message" required></textarea>
+  <button type="submit">Send Message</button>
+</form>
+
+<script>
+// Track button clicks
+document.getElementById('btnBuy').addEventListener('click', () => {
+  gtag('event', 'buy_button_click', {
+    'event_category': 'engagement',
+    'event_label': 'Buy Now Button'
+  });
+});
+
+document.getElementById('btnSubscribe').addEventListener('click', () => {
+  gtag('event', 'subscribe_button_click', {
+    'event_category': 'engagement',
+    'event_label': 'Subscribe Button'
+  });
+});
+
+// Track form submission
+document.getElementById('contactForm').addEventListener('submit', (e) => {
+  e.preventDefault(); // Prevent actual form submission
+
+  const name = e.target.name.value;
+  const email = e.target.email.value;
+
+  gtag('event', 'contact_form_submit', {
+    'event_category': 'engagement',
+    'event_label': `Contact Form by ${name}`,
+    'user_email': email
+  });
+
+  alert('Thank you for your message, ' + name + '!');
+
+  e.target.reset();
+});
+</script>
+
 </body>
 </html>
